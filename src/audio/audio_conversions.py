@@ -22,8 +22,9 @@ def np_pcm_wav__to__wav_filepath(np_pcm_wav: np.ndarray, wav_path: str | Path) -
     """
     Write a numpy array of linear PCM WAV to a file.
     """
-    assert Path(wav_path).parent.exists(), f"Expected {wav_path.parent} to exist"
-    assert Path(wav_path).suffix == ".wav", f"Expected .wav file, got {wav_path}"
+    wav_path = Path(wav_path)
+    assert wav_path.parent.exists(), f"Expected {wav_path.parent} to exist"
+    assert wav_path.suffix == ".wav", f"Expected .wav file, got {wav_path}"
     normalized_audio: np.ndarray = librosa.util.normalize(np_pcm_wav.astype(np.float32))
     sf.write(str(wav_path), normalized_audio, 8000)
 
@@ -56,8 +57,9 @@ def twilio_mulaw_str__to__pcm_wav_filepath__duplicate(twilio_mulaw_str: str, pcm
     """
     Is this deprecated? Keep it in case cause it took me a while to find stuff that worked at all.
     """
-    assert Path(pcm_wav_path).parent.exists(), f"Expected {pcm_wav_path.parent} to exist"
-    assert Path(pcm_wav_path).suffix == ".wav", f"Expected .wav file, got {pcm_wav_path}"
+    pcm_wav_path = Path(pcm_wav_path)
+    assert pcm_wav_path.parent.exists(), f"Expected {pcm_wav_path.parent} to exist"
+    assert pcm_wav_path.suffix == ".wav", f"Expected .wav file, got {pcm_wav_path}"
     audio_bytes_mulaw: bytes = base64.b64decode(twilio_mulaw_str)
     wave_write = WavWrite(str(pcm_wav_path), 1, 8000, 8, 7)
     wave_write.write(audio_bytes_mulaw)
