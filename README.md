@@ -1,6 +1,6 @@
 # Python Implementation for Handling Twilio Phone Calls
 
-This is the gist (see [`src/fastapi.py`](src/fastapi.py) for the full example).
+This is the gist (see [`example/fastapi.py`](example/fastapi.py) for the full example).
 
 ```python
 from twilio_phone_calls import (
