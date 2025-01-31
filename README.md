@@ -3,6 +3,13 @@
 This is the gist (see [`src/fastapi.py`](src/fastapi.py) for the full example).
 
 ```python
+from twilio_phone_calls import (
+    create_twilio_voice_response,
+    TwilioPhoneCall,
+    StreamEventsEnum,
+)
+
+
 ...
 
 
@@ -31,9 +38,15 @@ async def phone_call(request: Request):
 
 @app.websocket("/stream")
 async def stream(websocket: WebSocket):
+
     ...
 
     stream: TwilioPhoneCall | None = None
+
+    async def _send_text_to_caller(text: str) -> None:
+        assert stream is not None, "Stream not created."
+        for response in stream.text__to__twilio_messages(text):
+            await websocket.send_text(response)
 
     ...
 
