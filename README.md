@@ -1,5 +1,9 @@
 # Python Implementation for Handling Twilio Phone Calls
 
+This package handles all the audio conversion so that you can just deal with text-to-text.
+
+## Usage
+
 This is the gist (see [`example/fastapi.py`](example/fastapi.py) for the full example).
 
 ```python
