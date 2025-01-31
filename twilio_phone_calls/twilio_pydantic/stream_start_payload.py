@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from src.twilio_pydantic.stream_start_custom_params import StreamStartCustomParams
+from twilio_phone_calls.twilio_pydantic.stream_start_custom_params import StreamStartCustomParams
 
 class StreamStartPayload(BaseModel):
     accountSid: str

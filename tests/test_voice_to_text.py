@@ -2,12 +2,12 @@ from pathlib import Path
 
 import numpy as np
 
-from src.audio.tmp_file_path import TmpFilePath
-from src.audio.audio_conversions import (
+from twilio_phone_calls.audio.tmp_file_path import TmpFilePath
+from twilio_phone_calls.audio.audio_conversions import (
     mulaw_filepath__to__np_pcm_wav,
     np_pcm_wav__to__wav_filepath,
 )
-from src.audio.voice_to_text import voice_to_text
+from twilio_phone_calls.audio.voice_to_text import voice_to_text
 
 def test_voice_to_text():
     sample_path = Path("tests/fixtures/1684778198.0636666.sample.wav") # Mulaw file.

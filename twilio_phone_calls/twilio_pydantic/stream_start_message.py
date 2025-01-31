@@ -1,5 +1,5 @@
-from src.twilio_pydantic.twilio_stream_message import TwilioStreamMessage
-from src.twilio_pydantic.stream_start_payload import StreamStartPayload
+from twilio_phone_calls.twilio_pydantic.twilio_stream_message import TwilioStreamMessage
+from twilio_phone_calls.twilio_pydantic.stream_start_payload import StreamStartPayload
 
 class StreamStartMessage(TwilioStreamMessage):
     """

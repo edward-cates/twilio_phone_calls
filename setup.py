@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
@@ -6,7 +6,6 @@ with open('requirements.txt') as f:
 setup(
     name='twilio_phone_calls',
     version='0.0',
-    packages=find_packages(where='src'),
-    package_dir={'': 'src'},
+    packages=['twilio_phone_calls'],
     install_requires=install_requires,
 )

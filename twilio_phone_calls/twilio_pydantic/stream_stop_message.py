@@ -1,4 +1,4 @@
-from src.twilio_pydantic.twilio_stream_message import TwilioStreamMessage
+from twilio_phone_calls.twilio_pydantic.twilio_stream_message import TwilioStreamMessage
 
 class StreamStopMessage(TwilioStreamMessage):
     """

@@ -3,7 +3,7 @@ import json
 
 from tqdm import tqdm
 
-from src.twilio_phone_call import TwilioPhoneCall
+from twilio_phone_calls import TwilioPhoneCall
 
 class MockClient:
     def __init__(self):

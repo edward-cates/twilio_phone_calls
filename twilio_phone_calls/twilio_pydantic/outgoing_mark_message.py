@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from src.twilio_pydantic.stream_events_enum import StreamEventsEnum
-from src.twilio_pydantic.stream_mark_payload import StreamMarkPayload
+from twilio_phone_calls.twilio_pydantic.stream_events_enum import StreamEventsEnum
+from twilio_phone_calls.twilio_pydantic.stream_mark_payload import StreamMarkPayload
 
 class OutgoingMarkMessage(BaseModel):
     """

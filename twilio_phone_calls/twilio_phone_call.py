@@ -1,15 +1,15 @@
 import numpy as np
 
-from src.twilio_pydantic.stream_events_enum import StreamEventsEnum
-from src.twilio_pydantic.stream_start_message import StreamStartMessage
-from src.twilio_pydantic.stream_media_message import StreamMediaMessage
-from src.twilio_pydantic.stream_mark_message import StreamMarkMessage
-from src.twilio_pydantic.outgoing_media_message import OutgoingMediaMessage
-from src.twilio_pydantic.outgoing_mark_message import OutgoingMarkMessage
-from src.audio.audio_stream_listener import AudioStreamListener
-from src.audio.voice_to_text import voice_to_text_safe
-from src.audio.tmp_file_path import TmpFilePath
-from src.audio.audio_conversions import (
+from twilio_phone_calls.twilio_pydantic.stream_events_enum import StreamEventsEnum
+from twilio_phone_calls.twilio_pydantic.stream_start_message import StreamStartMessage
+from twilio_phone_calls.twilio_pydantic.stream_media_message import StreamMediaMessage
+from twilio_phone_calls.twilio_pydantic.stream_mark_message import StreamMarkMessage
+from twilio_phone_calls.twilio_pydantic.outgoing_media_message import OutgoingMediaMessage
+from twilio_phone_calls.twilio_pydantic.outgoing_mark_message import OutgoingMarkMessage
+from twilio_phone_calls.audio.audio_stream_listener import AudioStreamListener
+from twilio_phone_calls.audio.voice_to_text import voice_to_text_safe
+from twilio_phone_calls.audio.tmp_file_path import TmpFilePath
+from twilio_phone_calls.audio.audio_conversions import (
     text__to__mp3,
     mp3_filepath__to__twilio_mulaw_str,
     twilio_mulaw_str__to__np_pcm_wav,
