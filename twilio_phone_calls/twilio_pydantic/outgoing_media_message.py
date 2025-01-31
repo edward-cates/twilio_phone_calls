@@ -2,8 +2,8 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from twilio_phone_calls.twilio_pydantic.stream_events_enum import StreamEventsEnum
-from twilio_phone_calls.twilio_pydantic.outgoing_media_payload import OutgoingMediaPayload
+from .stream_events_enum import StreamEventsEnum
+from .outgoing_media_payload import OutgoingMediaPayload
 
 class OutgoingMediaMessage(BaseModel):
     """

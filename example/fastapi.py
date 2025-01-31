@@ -8,8 +8,8 @@ from fastapi.responses import Response
 from twilio_phone_calls import (
     create_twilio_voice_response,
     TwilioPhoneCall,
-    StreamEventsEnum,
 )
+from twilio_phone_calls.twilio_pydantic import StreamEventsEnum
 
 app = FastAPI()
 

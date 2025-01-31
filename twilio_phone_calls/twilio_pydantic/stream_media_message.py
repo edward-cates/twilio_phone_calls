@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from twilio_phone_calls.twilio_pydantic.twilio_stream_message import TwilioStreamMessage
-from twilio_phone_calls.twilio_pydantic.stream_media_payload import StreamMediaPayload
+from .twilio_stream_message import TwilioStreamMessage
+from .stream_media_payload import StreamMediaPayload
 
 class StreamMediaMessage(TwilioStreamMessage):
     """

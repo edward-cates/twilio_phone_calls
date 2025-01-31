@@ -2,7 +2,7 @@ from typing import Optional
 
 import numpy as np
 
-from twilio_phone_calls.audio.audio_sample_buffer import AudioSampleBuffer
+from .audio_sample_buffer import AudioSampleBuffer
 
 class AudioStreamListener:
     """

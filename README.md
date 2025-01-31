@@ -10,8 +10,8 @@ This is the gist (see [`example/fastapi.py`](example/fastapi.py) for the full ex
 from twilio_phone_calls import (
     create_twilio_voice_response,
     TwilioPhoneCall,
-    StreamEventsEnum,
 )
+from twilio_phone_calls.twilio_pydantic import StreamEventsEnum
 
 
 ...
