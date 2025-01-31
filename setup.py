@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='twilio_phone_calls',
-    version='0.0',
+    version='1.0',
     packages=['twilio_phone_calls'],
     install_requires=install_requires,
 )
