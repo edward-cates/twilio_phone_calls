@@ -1,7 +1,3 @@
-"""
-FastAPI server for the frontend
-"""
-
 import json
 import sys
 from datetime import datetime
