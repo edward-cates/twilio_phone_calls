@@ -13,8 +13,10 @@ app = FastAPI()
 
 start_time = datetime.now()
 
-def parrot(text: str) -> str:
-    return text
+# Your custom text-to-text function.
+def parrot(caller_message: str) -> str:
+    agent_response = f"You said: \"{caller_message}\""
+    return agent_response
 
 # hello world
 @app.get("/")

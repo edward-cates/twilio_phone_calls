@@ -1,12 +1,20 @@
-# Twilio 
+# Python Implementation for Handling Twilio Phone Calls
 
 This is the gist (see [`src/fastapi.py`](src/fastapi.py) for the full example).
 
 ```python
 ...
 
-def parrot(text: str) -> str:
-    return text
+
+# Your custom text-to-text function.
+def parrot(caller_message: str) -> str:
+    agent_response = f"You said: \"{caller_message}\""
+    return agent_response
+
+
+"""
+FastAPI methods but could use a different server.
+"""
 
 @app.post("/")
 async def phone_call(request: Request):
