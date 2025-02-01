@@ -1,7 +1,4 @@
 from setuptools import setup
-from pathlib import Path
-
-readme_text = Path("README.md").read_text()
 
 setup(
     name='twilio_phone_calls',
@@ -31,8 +28,7 @@ setup(
     ],
     author='Edward Cates',
     description='Python Implementation for Handling Twilio Phone Calls',
-    # long_description='This package handles all the audio conversion so that you can just deal with text-to-text.',
-    long_description=readme_text,
+    long_description='This package handles all the audio conversion so that you can just deal with text-to-text.',
     long_description_content_type='text/markdown',
     url='https://github.com/edward-cates/twilio_phone_calls',
     classifiers=[
