@@ -32,6 +32,10 @@ async def phone_call(request: Request):
     form_data = await request.form()
     voice_response = create_twilio_voice_response(
         caller_number=form_data.get("Caller"),
+        """
+        To get one of these, go to: https://dashboard.ngrok.com/
+        Make a free account - it takes 2 seconds.
+        """
         websocket_url="wss://4a95-2605-a601-a314-f100-b967-1001-fbf6-7ef2.ngrok-free.app/stream",
     )
     response = Response(
