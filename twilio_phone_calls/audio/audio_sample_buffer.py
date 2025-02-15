@@ -21,11 +21,12 @@ class AudioSampleBuffer:
     def nonempty_total(self) -> int:
         return int(np.sum(np.abs(self._audio_buffer) >= self._nonempty_threshold))
 
-    def has_paused(self) -> bool:
-        has_had_significant_audio = self.nonempty_total() >= self._min_total
-        if not has_had_significant_audio:
-            return False
-        return self.count_trailing_empty_audio() >= self._pause_size
+    def check_has_started(self) -> bool:
+        return self.nonempty_total() >= self._min_total
+
+    def check_has_finished(self) -> bool:
+        return self.check_has_started() and \
+            self.count_trailing_empty_audio() >= self._pause_size
 
     def crop_audio(self) -> np.ndarray:
         starting_index = max(0, self.first_nonempty_index - self._padding)

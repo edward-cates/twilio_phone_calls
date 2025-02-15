@@ -1,5 +1,6 @@
 import json
 import sys
+import time
 from datetime import datetime
 
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
@@ -16,8 +17,19 @@ app = FastAPI()
 start_time = datetime.now()
 
 # Your custom text-to-text function.
-def parrot(caller_message: str) -> str:
+async def parrot(caller_message: str) -> str:
     agent_response = f"You said: \"{caller_message}\""
+    return """
+Certainly! Based on your preferences for political news and avoiding one-off tragedies, I'll focus on some key political headlines. Here are three significant stories:
+
+1. The AP has been banned indefinitely from the Oval Office and Air Force One, which is a major development affecting press access to the White House.
+
+2. There are mass firings of federal workers as the Trump administration and Elon Musk are reportedly purging the US government.
+
+3. Robert F. Kennedy Jr. has been confirmed as health secretary by the Senate, which could have significant implications for health policy.
+
+Would you like more details on any of these stories?
+    """.strip()
     return agent_response
 
 # hello world
@@ -32,7 +44,7 @@ async def phone_call(request: Request):
     form_data = await request.form()
     voice_response = create_twilio_voice_response(
         caller_number=form_data.get("Caller"),
-        websocket_url="wss://4a95-2605-a601-a314-f100-b967-1001-fbf6-7ef2.ngrok-free.app/stream",
+        websocket_url="wss://6840-2605-a601-a314-f100-53fb-902-8792-1fc2.ngrok-free.app/stream",
     )
     response = Response(
         content=voice_response.to_xml(),
@@ -49,11 +61,6 @@ async def stream(websocket: WebSocket):
 
         stream: TwilioPhoneCall | None = None
 
-        async def _send_text_to_caller(text: str) -> None:
-            assert stream is not None, "Stream not created."
-            for response in stream.text__to__twilio_messages(text):
-                await websocket.send_text(response)
-
         while True:
             twilio_json = await websocket.receive_text()
             twilio_message: dict = json.loads(twilio_json)
@@ -67,9 +74,13 @@ async def stream(websocket: WebSocket):
                 break
 
             if stream is None:
-                stream = TwilioPhoneCall.from_start_message(twilio_message)
+                stream = TwilioPhoneCall.from_start_message(
+                    twilio_message,
+                    send_websocket_message_async_method=websocket.send_text,
+                    text_to_text_async_method=parrot,
+                )
                 print(f"TwilioPhoneCall created: {stream.caller=}")
-                await _send_text_to_caller("Hey! How can I help you?")
+                await stream.send_text_as_audio("Hey! How can I help you?")
             else:
                 """
                 Voice samples are split across (very) many twilio messages.
@@ -77,11 +88,8 @@ async def stream(websocket: WebSocket):
                 and a long pause detected, the voice message will be processed
                 and a response (i.e. `mail`) provided.
                 """
-                stream.receive_twilio_message(twilio_message)
-                mail: str | None = stream.check_mailbox()
-                if mail is not None:
-                    response: str = parrot(mail)
-                    await _send_text_to_caller(response)
+                await stream.receive_twilio_message(twilio_message)
+
     except WebSocketDisconnect:
         print("Websocket closed.")
 
