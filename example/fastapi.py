@@ -19,17 +19,6 @@ start_time = datetime.now()
 # Your custom text-to-text function.
 async def parrot(caller_message: str) -> str:
     agent_response = f"You said: \"{caller_message}\""
-    return """
-Certainly! Based on your preferences for political news and avoiding one-off tragedies, I'll focus on some key political headlines. Here are three significant stories:
-
-1. The AP has been banned indefinitely from the Oval Office and Air Force One, which is a major development affecting press access to the White House.
-
-2. There are mass firings of federal workers as the Trump administration and Elon Musk are reportedly purging the US government.
-
-3. Robert F. Kennedy Jr. has been confirmed as health secretary by the Senate, which could have significant implications for health policy.
-
-Would you like more details on any of these stories?
-    """.strip()
     return agent_response
 
 # hello world
@@ -74,6 +63,7 @@ async def stream(websocket: WebSocket):
                 break
 
             if stream is None:
+                # Call created.
                 stream = TwilioPhoneCall.from_start_message(
                     twilio_message,
                     send_websocket_message_async_method=websocket.send_text,
