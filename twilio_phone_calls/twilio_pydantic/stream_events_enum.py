@@ -6,3 +6,4 @@ class StreamEventsEnum(enum.Enum):
     media = "media"
     mark = "mark"
     stop = "stop"
+    clear = "clear"
