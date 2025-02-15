@@ -89,24 +89,30 @@ class TwilioPhoneCall:
                 stream_sid=self.stream_sid,
                 twilio_mulaw_str=twilio_mulaw_str,
             )
-        else:
-            with TmpFilePath("wav") as tmp_file_path:
-                try:
-                    text__to__wav_filepath(text, tmp_file_path)
-                    np_pcm_wav: np.ndarray = wav_filepath__to__np_pcm_wav(tmp_file_path)
-                    twilio_mulaw_str: str = np_pcm_wav__to__twilio_mulaw_str(np_pcm_wav)
-                except Exception as e:
-                    traceback.print_exc()
-                    raise e
-            outgoing_media_message = OutgoingMediaMessage.from_sid_and_mulaw_str(
-                stream_sid=self.stream_sid,
-                twilio_mulaw_str=twilio_mulaw_str,
+            await self._send_websocket_message_async_method(
+                outgoing_media_message.model_dump_json()
             )
+        else:
+            print("[debug:twilio_phone_call.py] CUDA available: using coqui-tts.")
+            sentences: list[str] = [s.strip() for s in text.split(".") if s.strip()]
+            for sentence in sentences:
+                with TmpFilePath("wav") as tmp_file_path:
+                    try:
+                        text__to__wav_filepath(sentence, tmp_file_path)
+                        np_pcm_wav: np.ndarray = wav_filepath__to__np_pcm_wav(tmp_file_path)
+                        twilio_mulaw_str: str = np_pcm_wav__to__twilio_mulaw_str(np_pcm_wav)
+                    except Exception as e:
+                        traceback.print_exc()
+                        raise e
+                outgoing_media_message = OutgoingMediaMessage.from_sid_and_mulaw_str(
+                    stream_sid=self.stream_sid,
+                    twilio_mulaw_str=twilio_mulaw_str,
+                )
+                await self._send_websocket_message_async_method(
+                    outgoing_media_message.model_dump_json()
+                )
         outgoing_mark_message = OutgoingMarkMessage.create_default(
             stream_sid=self.stream_sid,
-        )
-        await self._send_websocket_message_async_method(
-            outgoing_media_message.model_dump_json()
         )
         await self._send_websocket_message_async_method(
             outgoing_mark_message.model_dump_json()

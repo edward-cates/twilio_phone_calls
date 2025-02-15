@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='twilio_phone_calls',
-    version='2.0', # Feb 15, 2025.
+    version='2.1', # Feb 15, 2025.
     packages=[
         'twilio_phone_calls',
         'twilio_phone_calls.audio',
@@ -24,6 +24,8 @@ setup(
         'soundfile==0.13.1',
         'SpeechRecognition==3.14.1',
         'torch==2.6.0',
+        'torchaudio==2.6.0',
+        'torchvision==0.21.0',
         'twilio==9.4.4',
         'uvicorn==0.34.0',
         'websockets==14.2',
@@ -38,5 +40,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.10',
+    python_requires='>=3.10,<=3.12',
 )

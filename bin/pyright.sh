@@ -1,1 +1,1 @@
-pyright src/
+pyright twilio_phone_calls/

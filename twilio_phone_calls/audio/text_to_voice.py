@@ -1,9 +1,16 @@
 from pathlib import Path
 import time
 
-from TTS.api import TTS
+import torch
 
-tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to("cuda")
+if torch.cuda.is_available():
+    from TTS.api import TTS
+    start_time = time.time()
+    tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to("cuda")
+    end_time = time.time()
+    print(f"Time taken to load TTS model: {end_time - start_time} seconds")
+else:
+    tts = None
 
 def text__to__wav_filepath(text: str, wav_path: str | Path) -> None:
     wav_path = Path(wav_path)
@@ -11,6 +18,7 @@ def text__to__wav_filepath(text: str, wav_path: str | Path) -> None:
     assert not wav_path.exists(), f"Expected {wav_path} to not exist"
     assert wav_path.suffix == ".wav", f"Expected .wav file, got {wav_path}"
     start_time = time.time()
+    assert tts is not None, "No TTS model available"
     tts.tts_to_file(
         text=text,
         speaker='Tammy Grit',

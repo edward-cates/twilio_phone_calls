@@ -18,7 +18,7 @@ start_time = datetime.now()
 
 # Your custom text-to-text function.
 async def parrot(caller_message: str) -> str:
-    agent_response = f"You said: \"{caller_message}\""
+    agent_response = caller_message.strip()
     return agent_response
 
 # hello world
@@ -33,7 +33,7 @@ async def phone_call(request: Request):
     form_data = await request.form()
     voice_response = create_twilio_voice_response(
         caller_number=form_data.get("Caller"),
-        websocket_url="wss://6840-2605-a601-a314-f100-53fb-902-8792-1fc2.ngrok-free.app/stream",
+        websocket_url="wss://3bc8-2605-a601-a314-f100-53fb-902-8792-1fc2.ngrok-free.app/stream",
     )
     response = Response(
         content=voice_response.to_xml(),
