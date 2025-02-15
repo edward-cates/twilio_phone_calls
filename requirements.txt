@@ -1,3 +1,4 @@
+coqui-tts==0.25.3
 fastapi==0.115.8
 gTTS==2.5.4
 librosa==0.10.2.post1
@@ -11,6 +12,7 @@ pywav==1.1
 scikit-learn==1.6.1
 soundfile==0.13.1
 SpeechRecognition==3.14.1
+torch==2.6.0
 twilio==9.4.4
 uvicorn==0.34.0
 websockets==14.2

@@ -51,11 +51,6 @@ async def stream(websocket: WebSocket):
 
     stream: TwilioPhoneCall | None = None
 
-    async def _send_text_to_caller(text: str) -> None:
-        assert stream is not None, "Stream not created."
-        for response in stream.text__to__twilio_messages(text):
-            await websocket.send_text(response)
-
     ...
 
     while True:
@@ -66,8 +61,12 @@ async def stream(websocket: WebSocket):
 
         if stream is None:
             # Call created.
-            stream = TwilioPhoneCall.from_start_message(twilio_message)
-            await _send_text_to_caller("Hey! How can I help you?")
+            stream = TwilioPhoneCall.from_start_message(
+                twilio_message,
+                send_websocket_message_async_method=websocket.send_text,
+                text_to_text_async_method=parrot,
+            )
+            await stream.send_text_as_audio("Hey! How can I help you?")
 
         else:
             """
@@ -77,12 +76,6 @@ async def stream(websocket: WebSocket):
             and a response (i.e. `mail`) provided.
             """
             stream.receive_twilio_message(twilio_message)
-
-            mail: str | None = stream.check_mailbox()
-
-            if mail is not None:
-                response: str = parrot(mail)
-                await _send_text_to_caller(response)
 
 ...
 ```

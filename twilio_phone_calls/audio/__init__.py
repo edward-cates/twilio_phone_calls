@@ -8,7 +8,6 @@ from .audio_conversions import (
 )
 
 from .audio_sample_buffer import AudioSampleBuffer
-from .audio_stream_listener import AudioStreamListener
 from .tmp_file_path import TmpFilePath
 from .voice_to_text import (
     voice_to_text,

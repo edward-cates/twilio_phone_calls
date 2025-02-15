@@ -18,6 +18,14 @@ def twilio_mulaw_str__to__np_pcm_wav(twilio_audio_payload: str) -> np.ndarray:
     audio_bytes_linear_pcm_wav: bytes = audioop.ulaw2lin(audio_bytes_mulaw, 1)
     return np.frombuffer(audio_bytes_linear_pcm_wav, dtype=np.int8)
 
+def np_pcm_wav__to__twilio_mulaw_str(np_pcm_wav: np.ndarray) -> str:
+    """
+    Convert a numpy array of linear PCM WAV to a Twilio mulaw audio payload.
+    """
+    audio_bytes_linear_pcm_wav: bytes = np_pcm_wav.tobytes()
+    audio_bytes_mulaw: bytes = audioop.lin2ulaw(audio_bytes_linear_pcm_wav, 1)
+    return base64.b64encode(audio_bytes_mulaw).decode("utf-8")
+
 def np_pcm_wav__to__wav_filepath(np_pcm_wav: np.ndarray, wav_path: str | Path) -> None:
     """
     Write a numpy array of linear PCM WAV to a file.
@@ -27,6 +35,22 @@ def np_pcm_wav__to__wav_filepath(np_pcm_wav: np.ndarray, wav_path: str | Path) -
     assert wav_path.suffix == ".wav", f"Expected .wav file, got {wav_path}"
     normalized_audio: np.ndarray = librosa.util.normalize(np_pcm_wav.astype(np.float32))
     sf.write(str(wav_path), normalized_audio, 8000)
+
+def wav_filepath__to__np_pcm_wav(wav_path: str | Path) -> np.ndarray:
+    """
+    Read a WAV file into a numpy array of linear PCM WAV.
+    """
+    wav_path = Path(wav_path)
+    assert wav_path.exists(), f"Expected {wav_path} to exist"
+    # Read with original sample rate
+    audio_data, sample_rate = sf.read(str(wav_path))
+    # Resample to 8000 Hz if needed (Twilio's required rate)
+    if sample_rate != 8000:
+        audio_data = librosa.resample(audio_data, orig_sr=sample_rate, target_sr=8000)
+    # Normalize to [-1, 1] range first
+    audio_data = librosa.util.normalize(audio_data)
+    # Then scale to int8 range [-128, 127]
+    return (audio_data * np.iinfo(np.int8).max).astype(np.int8)
 
 def mulaw_filepath__to__np_pcm_wav(mulaw_path: str | Path) -> np.ndarray:
     """
@@ -64,4 +88,3 @@ def twilio_mulaw_str__to__pcm_wav_filepath__duplicate(twilio_mulaw_str: str, pcm
     wave_write = WavWrite(str(pcm_wav_path), 1, 8000, 8, 7)
     wave_write.write(audio_bytes_mulaw)
     wave_write.close()
-
